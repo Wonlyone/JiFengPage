@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>效率工具导航 - 智能时代必备</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #27ae60;
+            --accent-color: #e67e22;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f6f7fb;
+            --theme-primary: #2c3e50;
+            --theme-secondary: #27ae60;
+            --theme-accent: #e67e22;
+            --theme-background: rgba(255, 255, 255, 0.97);
+            --text-dark: #2c3e50;
+            --text-light: #f0f0f0;
+            --text-muted: #888;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --card-radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f2f1 0%, #76d7c4 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system;
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 15px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s ease, color 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #34495e 100%);
+            color: var(--text-light);
+        }
+
+        /* 加载动画 */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--theme-secondary);
+            animation: spin 1s linear infinite;
+        }
+
+        .loader p {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: var(--theme-primary);
+            font-weight: 500;
+        }
+
+        body.dark-mode .loader {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        body.dark-mode .loader p {
+            color: var(--text-light);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 日夜模式切换按钮 */
+        #toggleModeButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        #toggleModeButton:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #toggleModeButton i {
+            font-size: 20px;
+            color: var(--theme-primary);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode #toggleModeButton {
+            background: rgba(30, 30, 50, 0.9);
+        }
+
+        body.dark-mode #toggleModeButton i {
+            color: var(--theme-accent);
+        }
+
+        /* 顶部标题区域 */
+        .header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--card-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .header h1 a:hover {
+            color: var(--theme-accent);
+            transform: translateY(-2px);
+        }
+
+        .header p {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header p a {
+            font-size: 0.95rem;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* 顶部链接颜色优化 */
+        .header p a:nth-child(1) { background: linear-gradient(45deg, #3498db, #2ecc71); }
+        .header p a:nth-child(2) { background: linear-gradient(45deg, #e74c3c, #e67e22); }
+        .header p a:nth-child(3) { background: linear-gradient(45deg, #9b59b6, #3498db); }
+        .header p a:nth-child(4) { background: linear-gradient(45deg, #1abc9c, #2ecc71); }
+        .header p a:nth-child(5) { background: linear-gradient(45deg, #f39c12, #e74c3c); }
+        .header p a:nth-child(6) { background: linear-gradient(45deg, #d35400, #f39c12); }
+
+        .header p a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* 导航链接 */
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .nav-link-item {
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 导航栏悬停效果 - 底部线条动画 */
+        .nav-link-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: white;
+            border-radius: 3px;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link-item:hover::after {
+            width: 100%;
+        }
+
+        .nav-link-item.active {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--theme-primary);
+            font-weight: 600;
+        }
+
+        .nav-link-item.active::after {
+            width: 100%;
+            background-color: var(--theme-accent);
+        }
+
+        body.dark-mode .nav-link-item {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .nav-link-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 导航图标颜色优化 */
+        .nav-link-item[data-section="sites"] i { color: #3498db; }
+        .nav-link-item[data-section="task"] i { color: #2ecc71; }
+        .nav-link-item[data-section="method"] i { color: #f1c40f; }
+        .nav-link-item[data-section="big-data-ops"] i { color: #9b59b6; }
+        .nav-link-item[data-section="current-work"] i { color: #e74c3c; }
+        .nav-link-item[data-section="personal-growth"] i { color: #1abc9c; }
+        .nav-link-item[data-section="ai-learning-diary"] i { color: #e67e22; }
+
+        /* 搜索区域和实时时间 */
+        #search-engine {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        #search-engine form {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .time-display {
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            min-width: 250px;
+        }
+
+        body.dark-mode .time-display {
+            color: var(--text-light);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        #search-query {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid var(--theme-secondary);
+            border-radius: 30px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--card-shadow);
+        }
+
+        #search-query:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.3);
+        }
+
+        .search-button {
+            background-color: var(--theme-accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 30px;
+            box-shadow: var(--card-shadow);
+            font-weight: 500;
+        }
+
+        .search-button:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row;
+            }
+        }
+
+        .left-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 992px) {
+            .left-container {
+                width: 320px;
+                flex-shrink: 0;
+            }
+        }
+
+        /* 网格布局 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* 卡片样式 - 统一圆角和阴影 */
+        .category-card {
+            background: var(--theme-background);
+            border-radius: var(--card-radius);
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        body.dark-mode .category-card {
+            background: rgba(30, 30, 50, 0.7);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .category-title {
+            color: var(--theme-primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--theme-secondary);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        body.dark-mode .category-title {
+            color: var(--text-light);
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 链接列表 */
+        .link-list {
+            display: grid;
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(236, 240, 241, 0.5);
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--theme-secondary);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--theme-accent);
+            color: var(--text-light);
+            transform: translateX(8px);
+        }
+
+        .nav-link:hover::before {
+            transform: translateX(0);
+        }
+
+        .nav-link[href*="github"]::before,
+        .nav-link[href*="jin10"]::before,
+        .nav-link[href*="abcd"]::before,
+        .nav-link[href*="time.geekbang"]::before,
+        .nav-link[href*="juejin"]::before,
+        .nav-link[href*="monica"]::before,
+        .nav-link[href*="doubao"]::before,
+        .nav-link[href*="tongyi"]::before,
+        .nav-link[href*="toutiao"]::before,
+        .nav-link[href*="kimi"]::before {
+            content: "★ ";
+            color: var(--theme-accent);
+            font-weight: bold;
+            position: static;
+            background: none;
+            transform: none;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        body.dark-mode .nav-link {
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .nav-link:hover {
+            background: var(--theme-accent);
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--theme-primary);
+            font-size: 1rem;
+            border-top: 1px solid var(--theme-secondary);
+            font-weight: 500;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--card-radius);
+        }
+
+        body.dark-mode footer {
+            color: var(--text-light);
+            border-top-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* 番茄时钟 */
+        .timer-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 4px solid var(--theme-secondary);
+            box-sizing: border-box;
+        }
+
+        .timer-progress-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+
+        .timer-progress-ring circle {
+            stroke-width: 4;
+            stroke: var(--theme-secondary);
+            fill: transparent;
+            transition: stroke-dashoffset 0.5s linear, stroke 0.5s ease;
+        }
+
+        .timer-time-display {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        body.dark-mode .timer-time-display {
+            color: var(--text-light);
+        }
+
+        .timer-status {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            color: #333;
+            z-index: 10;
+        }
+
+        .timer-tip {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #666;
+            z-index: 10;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 220px;
+            line-height: 1.4;
+        }
+
+        body.dark-mode .timer-status,
+        body.dark-mode .timer-tip {
+            color: var(--text-light);
+        }
+
+        /* 番茄时钟设置按钮 */
+        .timer-button-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .timer-button {
+            padding: 10px 18px;
+            border: none;
+            background-color: var(--theme-primary);
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: var(--card-shadow);
+        }
+
+        .timer-button:hover {
+            transform: translateY(-3px);
+            background-color: var(--theme-accent);
+        }
+
+        .timer-settings {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--card-radius);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+            width: 300px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timer-settings.active {
+            opacity: 1;
+        }
+
+        .timer-settings label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .timer-settings input,
+        .timer-settings select {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        body.dark-mode .timer-settings {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        body.dark-mode .timer-settings input,
+        body.dark-mode .timer-settings select {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+        }
+
+        /* 任务管理 */
+        .task-management {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        @media (min-width: 992px) {
+            .task-management {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .stats-container, .tasks-container, .urgent-container, .task-tools-container {
+                flex: 1;
+                min-width: 300px;
+            }
+        }
+
+        .task-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: var(--theme-background);
+            border-radius: var(--card-radius);
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--theme-secondary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .stat-chart {
+            height: 180px;
+            background: var(--theme-background);
+            border-radius: var(--card-radius);
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        body.dark-mode .stat-item,
+        body.dark-mode .stat-chart {
+            background: rgba(30, 30, 50, 0.7);
+        }
+
+        /* 任务清单 */
+        .todo-title, .urgent-title {
+            color: var(--theme-primary);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--theme-secondary);
+            font-size: 1.4rem;
+        }
+
+        body.dark-mode .todo-title,
+        body.dark-mode .urgent-title {
+            color: var(--text-light);
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .todo-input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #todoInput {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--theme-secondary);
+            border-radius: 8px;
+            font-size: 16px;
+            background: var(--theme-background);
+        }
+
+        #taskCategory {
+            width: 100px;
+            padding: 0 10px;
+            border: 1px solid var(--theme-secondary);
+            border-radius: 8px;
+            background: var(--theme-background);
+        }
+
+        #addTodoBtn {
+            background-color: var(--theme-secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 45px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #addTodoBtn:hover {
+            background-color: #219653;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(236, 240, 241, 0.5);
+            border-radius: 8px;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .todo-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .todo-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .todo-item .task-text {
+            flex-grow: 1;
+        }
+
+        .todo-item .task-category {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.05);
+            margin-left: 10px;
+        }
+
+        .todo-item .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .todo-item .task-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .todo-item .task-actions button:hover {
+            color: var(--theme-accent);
+        }
+
+        .urgent-tasks {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--theme-secondary);
+        }
+
+        .urgent-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 3px solid red;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .urgent-item {
+            background: rgba(255, 0, 0, 0.2);
+            border-left-color: #ff6b6b;
+        }
+
+        body.dark-mode .todo-item {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .todo-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 微习惯打卡 */
+        .habits-container {
+            margin-top: 20px;
+        }
+
+        .habit-item {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .habit-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+            transform: translateX(5px);
+        }
+
+        .habit-checkbox {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .habit-label {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        body.dark-mode .habit-item {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        /* 提质增效卡片 */
+        .work-methods-container {
+            background: var(--theme-background);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: var(--card-shadow);
+            transition: background 0.3s ease;
+        }
+
+        .work-methods-title {
+            color: var(--theme-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--theme-secondary);
+            font-size: 1.6rem;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .work-methods-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .work-method-item {
+            background: var(--theme-background);
+            padding: 20px;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--theme-accent);
+            transition: all 0.3s ease;
+        }
+
+        .work-method-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .work-method-item h4 {
+            margin-bottom: 10px;
+            color: var(--theme-primary);
+            font-size: 1.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .work-method-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        /* 夜间模式下的样式调整 */
+        body.dark-mode .work-methods-container {
+            background: rgba(30, 30, 50, 0.7);
+        }
+
+        body.dark-mode .work-methods-title {
+            color: var(--text-light);
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .work-method-item {
+            background: rgba(30, 30, 50, 0.5);
+            border-left-color: var(--theme-accent);
+        }
+
+        body.dark-mode .work-method-item h4 {
+            color: var(--text-light);
+        }
+
+        body.dark-mode .work-method-item p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 重点项目 */
+        .key-project-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(39, 174, 96, 0.1);
+            border-left: 3px solid var(--theme-secondary);
+            border-radius: var(--card-radius);
+            transition: all 0.3s ease;
+        }
+
+        .key-project-item:hover {
+            transform: translateX(5px);
+        }
+
+        .key-project-item h4 {
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        body.dark-mode .key-project-item {
+            background: rgba(39, 174, 96, 0.2);
+            border-left-color: var(--theme-secondary);
+        }
+
+        /* 番茄统计 */
+        .pomodoro-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(236, 240, 241, 0.5);
+            border-radius: var(--card-radius);
+        }
+
+        .pomodoro-stat {
+            text-align: center;
+        }
+
+        .pomodoro-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--theme-primary);
+        }
+
+        .pomodoro-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        body.dark-mode .pomodoro-stats {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .pomodoro-value {
+            color: var(--text-light);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-links {
+                gap: 6px;
+            }
+            
+            .nav-link-item {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .timer-container {
+                max-width: 250px;
+                height: 250px;
+            }
+            
+            .timer-circle {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .timer-time-display {
+                font-size: 30px;
+            }
+            
+            .work-methods-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .task-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            /* 搜索区域在移动端调整为垂直布局 */
+            #search-engine {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 15px;
+            }
+            
+            #search-engine form {
+                min-width: 100%;
+            }
+            
+            .time-display {
+                width: 100%;
+            }
+            
+            .todo-input-container {
+                flex-wrap: wrap;
+            }
+            
+            #taskCategory {
+                width: 100%;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Toast 消息 */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--theme-secondary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        body.dark-mode .toast {
+            background: var(--theme-accent);
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none;
+        }
+        
+        /* 番茄时钟进度环样式 */
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        /* 任务分类标签样式 */
+        .category-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+        
+        .category-work {
+            background-color: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+        
+        .category-study {
+            background-color: rgba(155, 89, 182, 0.2);
+            color: #9b59b6;
+        }
+        
+        .category-life {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        /* 番茄统计图表 */
+        .pomodoro-history-chart {
+            height: 180px;
+            margin-top: 20px;
+            background: var(--theme-background);
+            border-radius: var(--card-radius);
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p>加载中，请稍候...</p>
+    </div>
+
+    <button id="toggleModeButton"><i class="fa-solid fa-moon"></i></button>
+    
+    <header class="header">
+        <h1>🤖 <a href="https://abcd.feishu.cn/docx/XxiAdFqwjo48kwx8Ws0cjuFentg" target="_blank">效率工具导航</a></h1>
+        <div class="nav-links">
+            <div class="nav-link-item active" data-section="sites"><i class="fas fa-globe"></i> 网站导航</div>
+            <div class="nav-link-item" data-section="task"><i class="fas fa-tasks"></i> 任务管理</div>
+            <div class="nav-link-item" data-section="method"><i class="fas fa-lightbulb"></i> 提质增效</div>
+            <div class="nav-link-item" data-section="big-data-ops"><i class="fas fa-database"></i> 云原生</div>
+            <div class="nav-link-item" data-section="current-work"><i class="fas fa-briefcase"></i> 当前工作</div>
+            <div class="nav-link-item" data-section="personal-growth"><i class="fas fa-seedling"></i> 终身成长</div>
+            <div class="nav-link-item" data-section="ai-learning-diary"><i class="fas fa-robot"></i> AI研究</div>
+        </div>
+        <p>
+            <a href="https://ivp5cbash.feiu.cn/wiki/ABm2w04Wrky3eYcIESUnJe?fromene=spaceOverview" target="_blank">AI知识库</a>
+            <a href="https://ivp5c9vg22u.feishu.cn/wiki/AhlbwuIkeiVz7CkxceTcCCAknYc?fromScene=spaceOverview" target="_blank">成长管理</a>
+            <a href="https://ivp5cbash.feishu.cn/wiki/Mh38wLqi6DTBkJzDDcgciNnXP?fromScene=spaceOverview" target="_blank">智能运维</a>
+            <a href="https://ivp5cbash.feishu.cn/wiki/Mh38wLqi6DTBkJzDDcgciNnXP?fromScene=spaceOverview" target="_blank">项目管理</a>      
+            <a href="https://ai-bot.cn/" target="_blank">AI工具集</a>
+            <a href="https://www.aicpb.com/news" target="_blank">每日AI资讯</a>
+            <a href="https://ivp5cbash.feishu.cn/wiki/USD3wz9jmiRSUcK2s3nBh?Scene=spaceOverview" target="_blank">工具实践</a>
+            <a href="https://ivp5cbash.feishu.cn/wiki/GhzZwRTRRipvFdl5Ocmlpe=spaceOverview" target="_blank">AI日记</a>           
+            <a href="https://waytoagi.feishu.cn/wiki/QPe5w5g7UisbEkkow8XcDmOpn8e#ZweodGwa8oKukcxBhRncSEFCnlx" target="_blank">通往AGI之路</a>
+        </p>
+    </header>
+    
+    <!-- 搜狗搜索功能 -->
+    <div id="search-engine">
+        <div class="time-display" id="realTime"></div>
+        <form onsubmit="return search()">
+            <input type="text" class="search-box" id="search-query" placeholder="请输入关键词进行搜索...">
+            <button type="submit" class="search-button">搜狗搜索</button>
+        </form>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 左侧区域：任务管理和番茄时钟 -->
+        <div class="left-container task-section hidden">
+            <div class="category-card">
+                <h3 class="category-title">⏱️ 番茄时钟</h3>
+                <div class="timer-container">
+                    <div class="timer-circle">
+                        <svg class="timer-progress-ring" viewBox="0 0 100 100">
+                            <circle class="progress-ring" cx="50" cy="50" r="45" stroke="#e67e22" stroke-width="5" fill="transparent" stroke-dasharray="283" stroke-dashoffset="0"></circle>
+                        </svg>
+                    </div>
+                    <div class="timer-time-display" id="timer-time-display">25:00</div>
+                    <div class="timer-status" id="timer-status">准备开始</div>
+                    <div class="timer-tip" id="work-tip">对的事情要专注</div>
+                    <div class="timer-tip" id="break-tip">休息建议：站起来走动一下</div>
+                    <div class="timer-button-container">
+                        <button id="timer-start-pause" class="timer-button">开始</button>
+                        <button id="timer-reset" class="timer-button">重置</button>
+                        <button id="timer-settings-btn" class="timer-button">设置</button>
+                    </div>
+                    <div class="timer-settings" id="timer-settings">
+                        <label for="timer-work-time">工作时间 (分钟):</label>
+                        <input type="number" id="timer-work-time" min="1" max="60" value="25">
+                        <label for="timer-break-time">短休息时间 (分钟):</label>
+                        <input type="number" id="timer-break-time" min="1" max="60" value="5">
+                        <label for="timer-long-break-time">长休息时间 (分钟):</label>
+                        <input type="number" id="timer-long-break-time" min="5" max="30" value="15">
+                        <label for="timer-long-break-interval">长休息间隔 (番茄数):</label>
+                        <input type="number" id="timer-long-break-interval" min="2" max="8" value="4">
+                        <label for="timer-color">选择颜色主题:</label>
+                        <select id="timer-color">
+                            <option value="#e67e22">橙色</option>
+                            <option value="#27ae60">绿色</option>
+                            <option value="#3498db">蓝色</option>
+                            <option value="#9b59b6">紫色</option>
+                            <option value="#e74c3c">红色</option>
+                        </select>
+                        <button id="timer-save-settings" class="timer-button">保存设置</button>
+                    </div>
+                </div>
+                <!-- 番茄统计 -->
+                <div class="pomodoro-stats">
+                    <div class="pomodoro-stat">
+                        <div class="pomodoro-value" id="today-pomodoros">0</div>
+                        <div class="pomodoro-label">今日完成</div>
+                    </div>
+                    <div class="pomodoro-stat">
+                        <div class="pomodoro-value" id="total-pomodoros">0</div>
+                        <div class="pomodoro-label">总番茄数</div>
+                    </div>
+                </div>
+                <!-- 番茄历史统计图表 -->
+                <div class="pomodoro-history-chart">
+                    <canvas id="pomodoroChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <h3 class="todo-title">📌 使用说明</h3>
+                <div class="task-explanation">
+                    <p><strong>🍅 番茄时钟</strong>: 专注工作25分钟，休息5分钟，每4个番茄后休息15分钟</p>
+                    <p><strong>✅ 任务清单</strong>: 添加今日任务，完成后勾选，可将重要任务标记为★</p>
+                    <p><strong>❗ 重要事项</strong>: 标记为★的任务将自动添加到重要事项</p>
+                    <p><strong>💯 微习惯打卡</strong>: 每日坚持完成小目标，培养良好习惯</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中间区域：任务管理内容 -->
+        <div class="task-management task-section hidden">
+            <div class="stats-container">
+                <div class="category-card">
+                    <h3 class="category-title">📊 任务统计</h3>
+                    <div class="task-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-tasks">0</div>
+                            <div class="stat-label">总任务数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="urgent-tasks">0</div>
+                            <div class="stat-label">重要事项</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="in-progress-tasks">0</div>
+                            <div class="stat-label">进行中任务</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="completed-tasks">0</div>
+                            <div class="stat-label">已完成任务</div>
+                        </div>
+                    </div>
+                    <div class="stat-chart">
+                        <canvas id="taskChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tasks-container">
+                <div class="category-card">
+                    <h3 class="todo-title">📝 今日任务清单</h3>
+                    <div class="todo-input-container">
+                        <input type="text" id="todoInput" placeholder="添加新任务...">
+                        <select id="taskCategory">
+                            <option value="work">工作</option>
+                            <option value="study">学习</option>
+                            <option value="life">生活</option>
+                        </select>
+                        <button id="addTodoBtn"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <ul class="todo-list" id="todoList"></ul>
+                </div>
+            </div>
+
+            <div class="urgent-container">
+                <div class="category-card">
+                    <h3 class="urgent-title">❗ 重要事项</h3>
+                    <div class="urgent-list" id="urgentList"></div>
+                </div>
+            </div>
+
+            <div class="task-tools-container">
+                <div class="category-card">
+                    <h3 class="todo-title">🛠️ 任务工具</h3>
+                    <div class="link-list">
+                        <a href="https://dida365.com/webapp#q/all/tasks" class="nav-link" target="_blank">滴答清单</a>
+                        <a href="https://web.shiguangxu.com/home/matter/importance" class="nav-link" target="_blank">时光序</a>
+                        <a href="https://mubu.com/app/folders/quick" class="nav-link" target="_blank">幕布</a>
+                        <a href="https://flowus.cn/chat" class="nav-link" target="_blank">息流</a>
+                        <a href="https://wannianli.tianqi.com/" class="nav-link" target="_blank">万年历</a>
+                        <a href="https://www.renrenshipu.com/" class="nav-link" target="_blank">餐谱</a>
+                        <a href="https://www.json.cm/json/" class="nav-link" target="_blank">Json格式化</a>
+                        <a href="https://www.jyshare.com/front-end/852/?utm_source=heifan" class="nav-link" target="_blank">时间戳转换</a>
+                        <a href="https://mapify.com.cn/app/all" class="nav-link" target="_blank">思维导图</a>
+                        <a href="https://lingma.aliyun.com/download?utm_content=m_1000402708" class="nav-link" target="_blank">通义灵码</a>
+                        <a href="https://ivp5cbash.feishu.cn/base/I7hTbZLmra1kxIsOQnucO0Flnzh?table=blkxDrkJAOdOO9qZ" class="nav-link" target="_blank">打卡微习惯</a>
+                    
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 网站导航页面 -->
+        <div class="grid-container sites-section">
+            <!-- 信息资讯区 -->
+            <section class="category-card">
+                <h2 class="category-title">🚀 信息资讯区</h2>
+                <div class="link-list" id="info-links">
+                    <a href="https://www.ifeng.com/" class="nav-link" target="_blank">凤凰网</a>
+                    <a href="https://finance.ifeng.com/studio" class="nav-link" target="_blank">财经</a>
+                    <a href="https://www.19lou.com/" class="nav-link" target="_blank">19楼</a>
+                    <a href="https://www.cankaoxiaoxi.com/#/index" class="nav-link" target="_blank">参考消息</a>
+                    <a href="https://juejin.cn/ai" class="nav-link" target="_blank">稀土掘金</a>
+                    <a href="https://time.geekbang.org/" class="nav-link" target="_blank">极客时间</a>
+                    <a href="https://search.jin10.com/?page=1&type=flash&order=1&keyword=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&offset=0&vip=" class="nav-link" target="_blank">金十数据</a>
+                    <a href="https://www.cls.cn/telegraph" class="nav-link" target="_blank">财联社</a>
+                    <a href="https://www.51cto.com/ai/" class="nav-link" target="_blank">51CTO</a>
+                    <a href="https://www.biji.com/note" class="nav-link" target="_blank">Get笔记</a>
+                </div>
+            </section>
+            
+            <!-- AI区 -->
+            <section class="category-card">
+                <h2 class="category-title">🧠 AI智能助手</h2>
+                <div class="link-list" id="ai-links">
+                    <a href="https://chat.deepseek.com/" class="nav-link" target="_blank">Deepseek</a>
+                    <a href="https://www.doubao.com/chat/" class="nav-link" target="_blank">豆包-智能助手</a>
+                    <a href="https://monica.cn/home" class="nav-link" target="_blank">莫妮卡</a>
+                    <a href="https://tongyi.aliyun.com/" class="nav-link" target="_blank">通义-超级AI助手</a>
+                    <a href="https://kimi.moonshot.cn/" class="nav-link" target="_blank">Kimi-智能助手</a>
+                    <a href="https://yuanbao.tencent.com/" class="nav-link" target="_blank">元宝-智能助手</a>
+                    <a href="https://yiyan.baidu.com/" class="nav-link" target="_blank">文心一言</a>
+                    <a href="https://metaso.cn/?s=aibot1&referrer_s=aibot1" class="nav-link" target="_blank">秘塔AI搜索</a>
+                    <a href="https://chatglm.cn/main/alltoolsdetail?lang=zh" class="nav-link" target="_blank">智谱清言</a>
+                    <a href="https://zhida.zhihu.com/" class="nav-link" target="_blank">知乎直答</a>
+                    <a href="https://xiaoyi.huawei.com/chat/" class="nav-link" target="_blank">华为小艺</a>
+                </div>
+            </section>
+
+            <!-- 实践区 -->
+            <section class="category-card">
+                <h2 class="category-title">📰 智能体实践区</h2>
+                <div class="link-list" id="practice-links">
+                    <a href="https://space.coze.cn/" class="nav-link" target="_blank">扣子空间</a>
+                    <a href="https://iflow.cn/" class="nav-link" target="_blank">心流</a>
+                    <a href="https://www.tiangong.cn/" class="nav-link" target="_blank">天工</a>
+                    <a href="https://flowith.net/" class="nav-link" target="_blank">Flowith</a>
+                    <a href="https://monica.cn/home/chat/%E8%BF%90%E7%BB%B4%E4%B8%93%E5%AE%B6/NH2d1MkZ" class="nav-link" target="_blank">运维智能体</a>
+                    <a href="https://abcd.feishu.cn/drive/folder/J" class="nav-link" target="_blank">AI文档</a>
+                    <a href="https://ivp5cbash.feishu.cn/wiki/ABm2w04WLilZwrky3eYcIESfromS" class="nav-link" target="_blank">飞书知识库</a>
+                    <a href="https://agents.baidu.com/agent/prompt/edit?appId=AY3MiujH8nDXjc" class="nav-link" target="_blank">人生导师</a>
+                    <a href="https://ask.feishu.cn/topic" class="nav-link" target="_blank">飞书知识问答</a>
+                </div>
+            </section>
+
+            <!-- 成长区 -->
+            <section class="category-card">
+                <h2 class="category-title">📚 成长区</h2>
+                <div class="link-list" id="growth-links">
+                    <a href="https://abcd.feishu.cn/share/base/form/shpwMIJvze" class="nav-link" target="_blank">每日打卡计划</a>
+                    <a href="https://abcd.feishu.cn/base/H7McbQA1uaFCNHskVk1?table=b9mNNxAE" class="nav-link" target="_blank">成长与管理</a>
+                    <a href="https://abcd.feishu.cn/docx/JlCGdj1ug" class="nav-link" target="_blank">终身成长</a>
+                    <a href="https://wx.zsxq.com/group/8888" class="nav-link" target="_blank">知识星球</a>
+                    <a href="https://www.feishu.cn/community/articles/wiki" class="nav-link" target="_blank">飞行社</a>
+                    <a href="https://www.bilibili.com/" class="nav-link" target="_blank">哔哩哔哩</a>
+                </div>
+            </section>
+            
+            <!-- 多模态 -->
+            <section class="category-card">
+                <h2 class="category-title">💻 多模态</h2>
+                <div class="link-list" id="local-links">
+                    <a href="https://jimeng.jianying.com/ai-tool/home" class="nav-link" target="_blank">即梦AI</a>
+                    <a href="https://app.klingai.com/cn/" class="nav-link" target="_blank">可灵AI</a>
+                    <a href="https://video.hunyuan.tencent.com/" class="nav-link" target="_blank">腾讯混元AI视频</a>
+                    <a href="https://maoxiangai.com/editor/works" class="nav-link" target="_blank">猫箱</a>
+                    <a href="https://zenvideo.qq.com/?utm_source=ai-bot.cn" class="nav-link" target="_blank">腾讯智影</a>
+                    <a href="https://tingwu.aliyun.com/home" class="nav-link" target="_blank">通义听悟</a>
+                    <a href="https://cp.baidu.com/" class="nav-link" target="_blank">橙篇</a>
+                    <a href="https://www.notion.so/" class="nav-link" target="_blank">notion</a>
+                </div>
+            </section>
+            
+
+        </div>
+
+        <!-- 提质增效 -->
+        <div class="grid-container method-section hidden">
+  
+            
+            <section class="category-card">
+                <h2 class="category-title">🔧 效率方法论</h2>
+                <div class="link-list">
+                    <a href="https://example.com/pomodoro" class="nav-link" target="_blank">番茄工作法</a>
+                    <a href="https://example.com/gtm" class="nav-link" target="_blank">GTD时间管理</a>
+                    <a href="https://example.com/kanban" class="nav-link" target="_blank">看板方法</a>
+                    <a href="https://example.com/eisenhower" class="nav-link" target="_blank">艾森豪威尔矩阵</a>
+                    <a href="https://example.com/okr" class="nav-link" target="_blank">OKR目标管理</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">📝 笔记方法</h2>
+                <div class="link-list">
+                    <a href="https://example.com/zettelkasten" class="nav-link" target="_blank">卡片盒笔记法</a>
+                    <a href="https://example.com/bullet-journal" class="nav-link" target="_blank">子弹笔记</a>
+                    <a href="https://example.com/cornell" class="nav-link" target="_blank">康奈尔笔记法</a>
+                    <a href="https://example.com/mind-mapping" class="nav-link" target="_blank">思维导图法</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🧠 思维工具</h2>
+                <div class="link-list">
+                    <a href="https://example.com/swot" class="nav-link" target="_blank">SWOT分析</a>
+                    <a href="https://example.com/pdca" class="nav-link" target="_blank">PDCA循环</a>
+                    <a href="https://example.com/smart" class="nav-link" target="_blank">SMART原则</a>
+                    <a href="https://example.com/5w1h" class="nav-link" target="_blank">5W1H分析法</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🚀 工作流程</h2>
+                <div class="link-list">
+                    <a href="https://example.com/agile" class="nav-link" target="_blank">敏捷开发</a>
+                    <a href="https://example.com/scrum" class="nav-link" target="_blank">Scrum框架</a>
+                    <a href="https://example.com/lean" class="nav-link" target="_blank">精益生产</a>
+                    <a href="https://example.com/six-sigma" class="nav-link" target="_blank">六西格玛</a>
+                </div>
+            </section>
+                     
+        </div>
+
+        <!-- 云原生 -->
+        <div class="grid-container big-data-ops-section hidden">
+            <section class="category-card">
+                <h2 class="category-title">💻 云原生</h2>
+                <div class="link-list">
+                    <a href="https://hadoop.apache.org/" class="nav-link" target="_blank">Hadoop</a>
+                    <a href="https://spark.apache.org/" class="nav-link" target="_blank">Apache Spark</a>
+                    <a href="https://kafka.apache.org/" class="nav-link" target="_blank">Apache Kafka</a>
+                    <a href="https://hbase.apache.org/" class="nav-link" target="_blank">Apache HBase</a>
+                    <a href="https://cassandra.apache.org/" class="nav-link" target="_blank">Apache Cassandra</a>
+                    <a href="https://www.mongodb.com/" class="nav-link" target="_blank">MongoDB</a>
+                    <a href="https://www.elastic.co/products/elasticsearch" class="nav-link" target="_blank">Elasticsearch</a>
+                    <a href="https://flink.apache.org/" class="nav-link" target="_blank">Apache Flink</a>
+                    <a href="https://www.tableau.com/" class="nav-link" target="_blank">Tableau</a>
+                    <a href="https://powerbi.microsoft.com/" class="nav-link" target="_blank">Power BI</a>
+                    <a href="https://clickhouse.com/" class="nav-link" target="_blank">ClickHouse</a>
+                    <a href="https://druid.apache.org/" class="nav-link" target="_blank">Apache Druid</a>
+                    <a href="https://prestodb.io/" class="nav-link" target="_blank">Presto</a>
+                    <a href="https://superset.apache.org/" class="nav-link" target="_blank">Apache Superset</a>
+                    <a href="https://www.snowflake.com/" class="nav-link" target="_blank">Snowflake</a>
+                </div>
+            </section>               
+                
+            <section class="category-card">
+                <h2 class="category-title">🛠️ 运维工具</h2>
+                <div class="link-list">
+                    <a href="https://example.com/prometheus" class="nav-link" target="_blank">Prometheus监控</a>
+                    <a href="https://example.com/grafana" class="nav-link" target="_blank">Grafana可视化</a>
+                    <a href="https://example.com/elk" class="nav-link" target="_blank">ELK日志系统</a>
+                    <a href="https://example.com/zabbix" class="nav-link" target="_blank">Zabbix监控</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🔍 数据分析</h2>
+                <div class="link-list">
+                    <a href="https://example.com/hadoop" class="nav-link" target="_blank">Hadoop生态</a>
+                    <a href="https://example.com/spark" class="nav-link" target="_blank">Spark计算</a>
+                    <a href="https://example.com/kafka" class="nav-link" target="_blank">Kafka消息队列</a>
+                    <a href="https://example.com/flink" class="nav-link" target="_blank">Flink流处理</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">☁️ 云平台</h2>
+                <div class="link-list">
+                    <a href="https://example.com/aws" class="nav-link" target="_blank">AWS大数据</a>
+                    <a href="https://example.com/azure" class="nav-link" target="_blank">Azure数据平台</a>
+                    <a href="https://example.com/gcp" class="nav-link" target="_blank">GCP数据服务</a>
+                    <a href="https://example.com/aliyun" class="nav-link" target="_blank">阿里云大数据</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">📚 学习资源</h2>
+                <div class="link-list">
+                    <a href="https://example.com/bigdata-courses" class="nav-link" target="_blank">大数据课程</a>
+                    <a href="https://example.com/ops-guide" class="nav-link" target="_blank">运维指南</a>
+                    <a href="https://example.com/community" class="nav-link" target="_blank">技术社区</a>
+                    <a href="https://example.com/certifications" class="nav-link" target="_blank">认证培训</a>
+                </div>
+            </section>
+            
+               
+        </div>
+
+        <!-- 当前工作 -->
+        <div class="grid-container current-work-section hidden">
+    
+            <section class="category-card">
+                <h2 class="category-title">📌 重点项目</h2>
+                <div class="key-project-item">
+                    <h4>AI运维助手开发</h4>
+                    <p>开发基于AI的智能运维助手，提升系统监控效率</p>
+                    <div class="project-meta">
+                        <span>状态: <strong>进行中</strong></span>
+                        <span>截止: 2025-07-15</span>
+                        <span>优先级: 高</span>
+                        <span>进度: 65%</span>
+                    </div>
+                </div>
+                <div class="key-project-item">
+                    <h4>数据仓库优化</h4>
+                    <p>重构现有数据仓库架构，提升查询性能</p>
+                    <div class="project-meta">
+                        <span>状态: <strong>规划中</strong></span>
+                        <span>截止: 2025-08-30</span>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">📅 本周任务</h2>
+                <div class="link-list">
+                    <a href="#" class="nav-link">完成监控系统升级方案</a>
+                    <a href="#" class="nav-link">评审新数据管道设计</a>
+                    <a href="#" class="nav-link">准备团队技术分享</a>
+                    <a href="#" class="nav-link">优化告警通知机制</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🔗 相关文档</h2>
+                <div class="link-list">
+                    <a href="#" class="nav-link">系统架构图</a>
+                    <a href="#" class="nav-link">API文档</a>
+                    <a href="#" class="nav-link">部署指南</a>
+                    <a href="#" class="nav-link">性能测试报告</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">👥 团队协作</h2>
+                <div class="link-list">
+                    <a href="#" class="nav-link">项目看板</a>
+                    <a href="#" class="nav-link">需求文档</a>
+                    <a href="#" class="nav-link">排期计划</a>
+                    <a href="https://abcd.feishu.cn/base/IzSnbza00aktjWsCYrTcZzs" class="nav-link" target="_blank">任务跟踪</a>
+                    <a href="https://abcd.feishu.cn/mies/meet_k" class="nav-link" target="_blank">会议纪要</a>
+                    <a href="https://abcd.feishu.cn/caldar" class="nav-link" target="_blank">日程安排</a>
+                    <a href="https://applink.feishu.cn/client/approval/home?appId=cli_108&mode=appCenter" class="nav-link" target="_blank">审批流程</a>                        
+                </div>
+            </section>
+            
+            <!-- 工作周报与复盘 -->
+            <section class="category-card">
+                <h2 class="category-title">📄 工作周报与复盘</h2>
+                <div class="link-list" id="work-report-links">
+                    <a href="https://ivp5cbash.feishu.cn/wiki/P3w3wKt2rn8e?table=tbl7iRAi6ARtB1tP&view=vew2V5dYE3" class="nav-link" target="_blank">事项汇总</a>
+                    <a href="http://1111/Weekly/Report" class="nav-link" target="_blank">周报</a>
+                    <a href="https://abcd.feishu.cn/sheets/xxxx" class="nav-link" target="_blank">工作复盘</a>
+                    <a href="https://abcd.feishu.cn/sheets/xxxx" class="nav-link" target="_blank">项目复盘</a>
+                </div>
+            </section>
+            
+         
+        </div>
+
+        <!-- 终身成长 -->
+        <div class="grid-container personal-growth-section hidden">
+            <section class="category-card">
+                <h2 class="category-title">🌱 成长日记</h2>
+                <div class="link-list">
+                    <a href="https://abcd.feishu.cn/base/ShsSbbDLOMsy0DSnoc" class="nav-link" target="_blank">好时光日志</a>
+                    <a href="https://abcd.feishu.cn/docx/XxiAdFq48kwx8Wsentg" class="nav-link" target="_blank">心流图</a>
+                    <a href="https://ivp5cbash.feishu.cn/wiki/FdzkwtXgtndh" class="nav-link" target="_blank">人生指南针</a>
+                    <a href="https://ivp5cbash.feishu.cn/base/PbZkbLGstNwecvle=blk2OMzaVTWnJraT" class="nav-link" target="_blank">成长复盘</a>
+                    <a href="https://ivp5cbash.feishu.cn/wiki/Ahlbz7kn=spaceOverview" class="nav-link" target="_blank">成长管理</a>
+                    <a href="https://ivp5cbash.feishu.cn/file/XOWdbpPx5tJgcVdrKnZb" class="nav-link" target="_blank">成长破圈模型</a>                            
+                    <a href="https://abcd.feishu.cn/base/ShsSbbDLpsy0DYcuSBSnoc" class="nav-link" target="_blank">原型构建方法</a>
+                    <a href="https://abcd.feishu.cn/docx/X8Ws0cjuFentg" class="nav-link" target="_blank">思维导图</a>               
+                </div>
+            </section>
+
+            <section class="category-card">
+                <h2 class="category-title">📚 学习资源</h2>
+                <div class="link-list">
+                    <a href="https://example.com/courses" class="nav-link" target="_blank">在线课程</a>
+                    <a href="https://example.com/podcasts" class="nav-link" target="_blank">播客频道</a>
+                    <a href="https://example.com/blogs" class="nav-link" target="_blank">技术博客</a>
+                    <a href="https://abcd.feishu.cn/base/ShsSQsOMsBSnoc" class="nav-link" target="_blank">图书馆</a>
+                    <a href="https://abcd.feishu.cn/docx/Xxo48kwxentg" class="nav-link" target="_blank">推荐书籍</a>
+                    <a href="https://abcd.feishu.cn/docx/TbWoixT5x1dnnc" class="nav-link" target="_blank">在线资源</a>
+                    <a href="https://ivp5cbash.feishu.cn/wiki/FdzkirhxQrMgtndh" class="nav-link" target="_blank">工具模板</a>                    
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🎯 技能提升</h2>
+                <div class="link-list">
+                    <a href="https://example.com/python" class="nav-link" target="_blank">Python学习</a>
+                    <a href="https://example.com/ai" class="nav-link" target="_blank">人工智能</a>
+                    <a href="https://example.com/cloud" class="nav-link" target="_blank">云计算</a>
+                    <a href="https://example.com/devops" class="nav-link" target="_blank">DevOps实践</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">💡 职业发展</h2>
+                <div class="link-list">
+                    <a href="https://example.com/career-path" class="nav-link" target="_blank">发展规划</a>
+                    <a href="https://example.com/resume" class="nav-link" target="_blank">技能优化</a>
+                    <a href="https://example.com/interview" class="nav-link" target="_blank">学习准备</a>
+                    <a href="https://example.com/cert" class="nav-link" target="_blank">认证考试</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🧘 身心健康</h2>
+                <div class="link-list">
+                    <a href="https://example.com/meditation" class="nav-link" target="_blank">冥想指导</a>
+                    <a href="https://example.com/fitness" class="nav-link" target="_blank">健身计划</a>
+                    <a href="https://example.com/nutrition" class="nav-link" target="_blank">营养指南</a>
+                    <a href="https://example.com/sleep" class="nav-link" target="_blank">睡眠优化</a>
+                </div>
+            </section>           
+        </div>
+
+        <!-- AI研究 -->
+        <div class="grid-container ai-learning-diary-section hidden">
+            <section class="category-card">
+                <h2 class="category-title">📝 AI研究</h2>
+                <div class="link-list">
+                    <a href="https://learn.microsoft.com/zh-cn/training/" class="nav-link" target="_blank">Microsoft Learn</a>
+                    <a href="https://developers.google.com/machine-learning" class="nav-link" target="_blank">Google Machine Learning</a>
+                    <a href="https://www.fast.ai/" class="nav-link" target="_blank">Fast.ai</a>
+                    <a href="https://deeplearning.ai/" class="nav-link" target="_blank">deeplearning.ai</a>
+                    <a href="https://www.coursera.org/specializations/natural-language-processing" class="nav-link" target="_blank">NLP Specialization</a>
+                    <a href="https://huggingface.co/learn" class="nav-link" target="_blank">Hugging Face Learn</a>
+                    <a href="https://www.kaggle.com/learn" class="nav-link" target="_blank">Kaggle Learn</a>
+                    <a href="https://www.udacity.com/course/deep-learning-nanodegree--nd101" class="nav-link" target="_blank">Udacity Deep Learning</a>
+                    <a href="https://www.coursera.org/specializations/natural-language-processing" class="nav-link" target="_blank">Natural Language Processing Specialization</a>
+                    <a href="https://www.coursera.org/specializations/machine-learning" class="nav-link" target="_blank">Machine Learning Specialization</a>
+                    <a href="https://www.deeplearningbook.org/" class="nav-link" target="_blank">深度学习书籍</a>
+                    <a href="https://www.manning.com/books/grokking-deep-learning" class="nav-link" target="_blank">Grokking Deep Learning</a>
+                    <a href="https://paperswithcode.com/" class="nav-link" target="_blank">Papers With Code</a>
+                    <a href="https://distill.pub/" class="nav-link" target="_blank">Distill.pub</a>
+                    <a href="https://openai.com/research/" class="nav-link" target="_blank">OpenAI Research</a>
+                </div>
+            </section>
+
+            <!-- 热门AI工具模块 -->
+            <section class="category-card">
+                <h3>🔥 热门AI工具</h3>
+                <div class="link-list" id="ai-tool-links">
+                    <a href="https://www.openai.com/" class="nav-link" target="_blank">OpenAI</a>
+                    <a href="https://platform.openai.com/" class="nav-link" target="_blank">OpenAI Playground</a>
+                    <a href="https://www.huggingface.co/" class="nav-link" target="_blank">Hugging Face</a>
+                    <a href="https://cohere.ai/" class="nav-link" target="_blank">Cohere</a>
+                    <a href="https://www.deepseek.com/" class="nav-link" target="_blank">DeepSeek</a>
+                    <a href="https://www.anthropic.com/" class="nav-link" target="_blank">Anthropic</a>
+                    <a href="https://www.stability.ai/" class="nav-link" target="_blank">Stability AI</a>
+                    <a href="https://www.nvidia.com/en-us/research/ai/" class="nav-link" target="_blank">NVIDIA AI</a>
+                    <a href="https://www.microsoft.com/en-us/research/academic-program/" class="nav-link" target="_blank">微软学术研究</a>
+                    <a href="https://research.facebook.com/research/" class="nav-link" target="_blank">Facebook AI研究</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">📓 学习笔记</h2>
+                <div class="link-list">
+                    <a href="#" class="nav-link">机器学习基础</a>
+                    <a href="#" class="nav-link">深度学习实践</a>
+                    <a href="#" class="nav-link">自然语言处理</a>
+                    <a href="#" class="nav-link">计算机视觉</a>
+                </div>
+            </section>
+            
+            <section class="category-card">
+                <h2 class="category-title">🔬 实验项目</h2>
+                <div class="link-list">
+                    <a href="#" class="nav-link">情感分析模型</a>
+                    <a href="#" class="nav-link">图像识别应用</a>
+                    <a href="#" class="nav-link">聊天机器人</a>
+                    <a href="#" class="nav-link">推荐系统</a>
+                </div>
+            </section>
+            
+            
+            <section class="category-card">
+                <h2 class="category-title">📚 学习资源</h2>
+                <div class="link-list">
+                    <a href="https://example.com/courses" class="nav-link" target="_blank">AI课程</a>
+                    <a href="https://example.com/books" class="nav-link" target="_blank">AI书籍</a>
+                    <a href="https://example.com/datasets" class="nav-link" target="_blank">数据集资源</a>
+                    <a href="https://example.com/competitions" class="nav-link" target="_blank">AI竞赛</a>
+                </div>
+            </section>           
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>
+            © 2025 认知刷新：人类的核心优势在于提出问题和定义任务，学习AI工具的关键是多用、多试、多总结 | 工作态度：所有做事的目标和内容都关联到DS，过程和方法都充分运用DS
+           <p>  公众号：大头玩AI     <p>
+        </p>
+    </footer>
+
+    <!-- Toast消息容器 -->
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 页面加载时显示加载动画
+        document.getElementById('loader').classList.add('show');
+        
+        // 模拟加载过程
+        setTimeout(() => {
+            document.getElementById('loader').classList.remove('show');
+        }, 1000);
+
+        // 日夜模式切换
+        const toggleModeButton = document.getElementById('toggleModeButton');
+        const body = document.body;
+
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            toggleModeButton.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
+
+        toggleModeButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                toggleModeButton.innerHTML = '<i class="fa-solid fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                toggleModeButton.innerHTML = '<i class="fa-solid fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // 导航栏切换
+        const navLinks = document.querySelectorAll('.nav-link-item');
+        const sections = document.querySelectorAll('.sites-section, .task-section, .method-section, .big-data-ops-section, .current-work-section, .personal-growth-section, .ai-learning-diary-section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                link.classList.add('active');
+
+                const targetSection = link.dataset.section;
+                sections.forEach(section => {
+                    if (section.classList.contains(`${targetSection}-section`)) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+
+                // 显示任务管理页面的特定内容
+                if (targetSection === 'task') {
+                    document.querySelector('.task-management').classList.remove('hidden');
+                    document.querySelector('.left-container').classList.remove('hidden');
+                } else {
+                    document.querySelector('.task-management').classList.add('hidden');
+                    document.querySelector('.left-container').classList.add('hidden');
+                }
+            });
+        });
+
+        // 默认显示网站导航
+        document.querySelector('.sites-section').classList.remove('hidden');
+        document.querySelector('.task-management').classList.add('hidden');
+        document.querySelector('.left-container').classList.add('hidden');
+
+        // 搜狗搜索功能
+        function search() {
+            const query = document.getElementById('search-query').value.trim();
+            if (query) {
+                window.open(`https://www.sogou.com/web?query=${encodeURIComponent(query)}`, '_blank');
+            }
+            return false;
+        }
+
+        // 显示当前时间
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const weekDay = ['日', '一', '二', '三', '四', '五', '六'][now.getDay()];
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('realTime').textContent = `${year}年${month}月${day}日 周${weekDay} ${hours}:${minutes}:${seconds}`;
+        }
+        
+        // 每秒更新时间
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // 番茄时钟功能
+        const timerTimeDisplay = document.getElementById('timer-time-display');
+        const timerStatus = document.getElementById('timer-status');
+        const timerStartPauseBtn = document.getElementById('timer-start-pause');
+        const timerResetBtn = document.getElementById('timer-reset');
+        const timerSettingsBtn = document.getElementById('timer-settings-btn');
+        const timerSettings = document.getElementById('timer-settings');
+        const timerSaveSettingsBtn = document.getElementById('timer-save-settings');
+        const timerWorkTimeInput = document.getElementById('timer-work-time');
+        const timerBreakTimeInput = document.getElementById('timer-break-time');
+        const timerLongBreakTimeInput = document.getElementById('timer-long-break-time');
+        const timerLongBreakIntervalInput = document.getElementById('timer-long-break-interval');
+        const progressRing = document.querySelector('.progress-ring');
+        const timerColorSelect = document.getElementById('timer-color');
+        const todayPomodorosElement = document.getElementById('today-pomodoros');
+        const totalPomodorosElement = document.getElementById('total-pomodoros');
+        const workTip = document.getElementById('work-tip');
+        const breakTip = document.getElementById('break-tip');
+
+        let timerInterval;
+        let isRunning = false;
+        let isWorking = true;
+        let timeLeft = 25 * 60; // 默认25分钟
+        let totalTime = 25 * 60;
+        let currentColor = '#e67e22';
+        let savedWorkTime = 25;
+        let savedBreakTime = 5;
+        let savedLongBreakTime = 15;
+        let savedLongBreakInterval = 4;
+        let pomodoroCount = 0;
+        let todayPomodoros = 0;
+        let totalPomodoros = 0;
+        let todayDate = new Date().toDateString();
+
+        // 休息建议列表
+        const breakTips = [
+            "站起来走动一下，活动活动筋骨",
+            "喝一杯水，补充水分",
+            "做几个深呼吸放松一下",
+            "看看窗外，让眼睛休息",
+            "做几个简单的伸展运动",
+            "闭目养神一分钟",
+            "站起来走动一下，活动活动筋骨",
+            "喝一杯水，补充水分",
+            "做几个深呼吸放松一下",
+            "看看窗外，让眼睛休息",
+            "做几个简单的伸展运动",
+            "闭目养神一分钟"
+        ];
+
+        // 加载保存的设置
+        function loadSavedSettings() {
+            savedWorkTime = localStorage.getItem('savedWorkTime') ? parseInt(localStorage.getItem('savedWorkTime')) : 25;
+            savedBreakTime = localStorage.getItem('savedBreakTime') ? parseInt(localStorage.getItem('savedBreakTime')) : 5;
+            savedLongBreakTime = localStorage.getItem('savedLongBreakTime') ? parseInt(localStorage.getItem('savedLongBreakTime')) : 15;
+            savedLongBreakInterval = localStorage.getItem('savedLongBreakInterval') ? parseInt(localStorage.getItem('savedLongBreakInterval')) : 4;
+            currentColor = localStorage.getItem('currentColor') || '#e67e22';
+            totalPomodoros = localStorage.getItem('totalPomodoros') ? parseInt(localStorage.getItem('totalPomodoros')) : 0;
+            const lastPomodoroDate = localStorage.getItem('lastPomodoroDate');
+            
+            // 检查是否是同一天
+            if (lastPomodoroDate === todayDate) {
+                todayPomodoros = localStorage.getItem('todayPomodoros') ? parseInt(localStorage.getItem('todayPomodoros')) : 0;
+            } else {
+                todayPomodoros = 0;
+                localStorage.setItem('lastPomodoroDate', todayDate);
+                localStorage.setItem('todayPomodoros', '0');
+            }
+            
+            timerWorkTimeInput.value = savedWorkTime;
+            timerBreakTimeInput.value = savedBreakTime;
+            timerLongBreakTimeInput.value = savedLongBreakTime;
+            timerLongBreakIntervalInput.value = savedLongBreakInterval;
+            timerColorSelect.value = currentColor;
+            
+            // 更新番茄统计显示
+            todayPomodorosElement.textContent = todayPomodoros;
+            totalPomodorosElement.textContent = totalPomodoros;
+            
+            // 重置计时器
+            timeLeft = savedWorkTime * 60;
+            totalTime = timeLeft;
+            updateTimerDisplay();
+            initPomodoroChart();
+        }
+
+        // 更新计时器显示
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerTimeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            // 更新进度环
+            const progress = timeLeft / totalTime;
+            const circumference = 2 * Math.PI * 45;
+            const offset = circumference * (1 - progress);
+            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressRing.style.strokeDashoffset = offset;
+            progressRing.style.stroke = isWorking ? currentColor : '#27ae60';
+            
+            // 更新状态和提示
+            if (isRunning) {
+                timerStatus.textContent = isWorking ? '工作中' : '休息中';
+                if (isWorking) {
+                    workTip.style.display = 'block';
+                    breakTip.style.display = 'none';
+                } else {
+                    workTip.style.display = 'none';
+                    breakTip.style.display = 'block';
+                }
+            } else if (timeLeft <= 0) {
+                timerStatus.textContent = isWorking ? '休息时间' : '工作时间';
+                workTip.style.display = 'none';
+                breakTip.style.display = 'none';
+            } else {
+                timerStatus.textContent = '准备开始';
+                workTip.style.display = 'none';
+                breakTip.style.display = 'none';
+            }
+        }
+
+        // 开始计时器
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timerStartPauseBtn.textContent = '暂停';
+                
+                // 设置当前阶段的总时间
+                totalTime = isWorking ? savedWorkTime * 60 : savedBreakTime * 60;
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        
+                        // 播放提示音
+                        const audio = new Audio('https://www.soundjay.com/button/beep-07.wav');
+                        audio.play();
+                        
+                        // 如果是工作时间结束，增加番茄计数
+                        if (isWorking) {
+                            pomodoroCount++;
+                            todayPomodoros++;
+                            totalPomodoros++;
+                            todayPomodorosElement.textContent = todayPomodoros;
+                            totalPomodorosElement.textContent = totalPomodoros;
+                            localStorage.setItem('todayPomodoros', todayPomodoros);
+                            localStorage.setItem('totalPomodoros', totalPomodoros);
+                            localStorage.setItem('lastPomodoroDate', todayDate);
+                            updatePomodoroChart();
+                        }
+                        
+                        // 切换工作/休息状态
+                        isWorking = !isWorking;
+                        
+                        // 检查是否需要长休息
+                        if (!isWorking && pomodoroCount >= savedLongBreakInterval) {
+                            timeLeft = savedLongBreakTime * 60;
+                            totalTime = timeLeft;
+                            pomodoroCount = 0;
+                            breakTip.textContent = "长休息建议：站起来走动一下，喝杯水，活动5分钟";
+                        } else {
+                            timeLeft = isWorking ? savedWorkTime * 60 : savedBreakTime * 60;
+                            totalTime = timeLeft;
+                            if (!isWorking) {
+                                // 随机显示休息提示
+                                const randomTip = breakTips[Math.floor(Math.random() * breakTips.length)];
+                                breakTip.textContent = randomTip;
+                            }
+                        }
+                        
+                        updateTimerDisplay();
+                        timerStartPauseBtn.textContent = '开始';
+                        
+                        showToast(isWorking ? '工作时间开始！' : '休息时间开始！');
+                        
+                        // 发送通知
+                        if (Notification.permission === 'granted') {
+                            new Notification(isWorking ? '工作时间开始' : '休息时间开始', {
+                                body: isWorking ? '专注工作！' : '休息一下吧！'
+                            });
+                        } else if (Notification.permission !== 'denied') {
+                            Notification.requestPermission().then(permission => {
+                                if (permission === 'granted') {
+                                    new Notification(isWorking ? '工作时间开始' : '休息时间开始', {
+                                        body: isWorking ? '专注工作！' : '休息一下吧！'
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }, 1000);
+            } else {
+                // 暂停计时器
+                clearInterval(timerInterval);
+                isRunning = false;
+                timerStartPauseBtn.textContent = '继续';
+                timerStatus.textContent = '已暂停';
+                workTip.style.display = 'none';
+                breakTip.style.display = 'none';
+            }
+        }
+
+        // 重置按钮功能
+        timerResetBtn.addEventListener('click', () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isWorking = true;
+            timeLeft = savedWorkTime * 60;
+            totalTime = timeLeft;
+            updateTimerDisplay();
+            timerStartPauseBtn.textContent = '开始';
+            timerStatus.textContent = '准备开始';
+            progressRing.style.stroke = currentColor;
+            workTip.style.display = 'none';
+            breakTip.style.display = 'none';
+        });
+
+        // 设置按钮功能
+        timerSettingsBtn.addEventListener('click', () => {
+            timerSettings.style.display = 'block';
+            timerSettings.classList.add('active');
+        });
+
+        // 保存设置按钮功能
+        timerSaveSettingsBtn.addEventListener('click', () => {
+            savedWorkTime = parseInt(timerWorkTimeInput.value);
+            savedBreakTime = parseInt(timerBreakTimeInput.value);
+            savedLongBreakTime = parseInt(timerLongBreakTimeInput.value);
+            savedLongBreakInterval = parseInt(timerLongBreakIntervalInput.value);
+            currentColor = timerColorSelect.value;
+            
+            localStorage.setItem('savedWorkTime', savedWorkTime);
+            localStorage.setItem('savedBreakTime', savedBreakTime);
+            localStorage.setItem('savedLongBreakTime', savedLongBreakTime);
+            localStorage.setItem('savedLongBreakInterval', savedLongBreakInterval);
+            localStorage.setItem('currentColor', currentColor);
+            
+            clearInterval(timerInterval);
+            isRunning = false;
+            isWorking = true;
+            timeLeft = savedWorkTime * 60;
+            totalTime = timeLeft;
+            progressRing.style.stroke = currentColor;
+            updateTimerDisplay();
+            timerStartPauseBtn.textContent = '开始';
+            timerStatus.textContent = '准备开始';
+            
+            timerSettings.style.display = 'none';
+            timerSettings.classList.remove('active');
+            
+            showToast('设置已保存！');
+        });
+
+        // 开始/暂停按钮功能
+        timerStartPauseBtn.addEventListener('click', startTimer);
+
+        // 点击其他地方关闭设置面板
+        document.addEventListener('click', (e) => {
+            if (!timerSettings.contains(e.target) && e.target !== timerSettingsBtn) {
+                timerSettings.style.display = 'none';
+                timerSettings.classList.remove('active');
+            }
+        });
+
+        // 初始化番茄统计图表
+        function initPomodoroChart() {
+            const ctx = document.getElementById('pomodoroChart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [{
+                        label: '番茄钟完成数',
+                        data: [3, 4, 5, 6, 4, 2, 0],
+                        backgroundColor: '#e67e22',
+                        borderColor: '#d35400',
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // 更新番茄统计图表
+        function updatePomodoroChart() {
+            // 在实际应用中，这里应该从本地存储中获取历史数据
+            // 这里仅做演示
+            const dayIndex = new Date().getDay() - 1; // 获取星期几（0-6，周日为0）
+            if (dayIndex >= 0) {
+                const currentData = pomodoroChart.data.datasets[0].data;
+                currentData[dayIndex] = todayPomodoros;
+                pomodoroChart.update();
+            }
+        }
+
+        let pomodoroChart = null;
+
+        // 任务管理功能
+        const todoInput = document.getElementById('todoInput');
+        const addTodoBtn = document.getElementById('addTodoBtn');
+        const todoList = document.getElementById('todoList');
+        const urgentList = document.getElementById('urgentList');
+        const totalTasksElement = document.getElementById('total-tasks');
+        const completedTasksElement = document.getElementById('completed-tasks');
+        const inProgressTasksElement = document.getElementById('in-progress-tasks');
+        const urgentTasksElement = document.getElementById('urgent-tasks');
+
+        // 从本地存储加载数据
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+        let urgentTodos = JSON.parse(localStorage.getItem('urgentTodos')) || [];
+
+        // 页面加载时初始化任务
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedSettings();
+            pomodoroChart = initPomodoroChart();
+            renderTodos();
+            renderUrgentTodos();
+            updateTaskStats();
+            initTaskChart();
+            initHabits();
+        });
+
+        // 添加任务
+        addTodoBtn.addEventListener('click', addTodo);
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+
+        function addTodo() {
+            const todoText = todoInput.value.trim();
+            if (todoText) {
+                // 检查任务是否已存在
+                if (todos.some(todo => todo.text === todoText)) {
+                    showToast('该任务已存在！');
+                    return;
+                }
+                
+                // 检查任务是否已在重要事项中
+                if (urgentTodos.some(urgentTodo => urgentTodo.text === todoText)) {
+                    showToast('该任务已在重要事项中！');
+                    return;
+                }
+
+                const category = document.getElementById('taskCategory').value;
+                const todo = {
+                    text: todoText,
+                    category: category,
+                    isCompleted: false
+                };
+                todos.push(todo);
+                saveData();
+                renderTodos();
+                updateTaskStats();
+                showToast('任务已添加！');
+                todoInput.value = '';
+            }
+        }
+
+        // 渲染任务
+        function renderTodos() {
+            todoList.innerHTML = '';
+            todos.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.className = 'todo-item fade-in';
+                if (todo.isCompleted) {
+                    li.classList.add('completed');
+                }
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = todo.isCompleted;
+                checkbox.addEventListener('change', () => {
+                    todo.isCompleted = !todo.isCompleted;
+                    saveData();
+                    renderTodos();
+                    updateTaskStats();
+                });
+
+                const span = document.createElement('span');
+                span.className = 'task-text';
+                span.textContent = todo.text;
+                
+                // 添加分类标签
+                const categoryTag = document.createElement('span');
+                categoryTag.className = `category-tag category-${todo.category}`;
+                switch(todo.category) {
+                    case 'work':
+                        categoryTag.textContent = '工作';
+                        break;
+                    case 'study':
+                        categoryTag.textContent = '学习';
+                        break;
+                    case 'life':
+                        categoryTag.textContent = '生活';
+                        break;
+                }
+                span.appendChild(categoryTag);
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'task-actions';
+
+                const importantBtn = document.createElement('button');
+                importantBtn.innerHTML = '<i class="far fa-star"></i>';
+                importantBtn.addEventListener('click', () => {
+                    markAsUrgent(todo.text);
+                });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteBtn.addEventListener('click', () => {
+                    todos.splice(index, 1);
+                    saveData();
+                    renderTodos();
+                    updateTaskStats();
+                    showToast('任务已删除！');
+                });
+
+                actionsDiv.appendChild(importantBtn);
+                actionsDiv.appendChild(deleteBtn);
+
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(actionsDiv);
+                todoList.appendChild(li);
+            });
+        }
+
+        // 标记为重要
+        function markAsUrgent(text) {
+            const todoIndex = todos.findIndex(todo => todo.text === text);
+            if (todoIndex !== -1) {
+                const todo = todos[todoIndex];
+                urgentTodos.push({
+                    text: todo.text,
+                    category: todo.category,
+                    isCompleted: todo.isCompleted
+                });
+                todos.splice(todoIndex, 1);
+                saveData();
+                renderTodos();
+                renderUrgentTodos();
+                updateTaskStats();
+                showToast('已标记为重要任务！');
+            }
+        }
+
+        // 渲染重要事项
+        function renderUrgentTodos() {
+            urgentList.innerHTML = '';
+            urgentTodos.forEach((urgentTodo, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'urgent-item fade-in';
+                
+                const textSpan = document.createElement('span');
+                textSpan.textContent = `★ ${urgentTodo.text}`;
+                
+                // 添加分类标签
+                const categoryTag = document.createElement('span');
+                categoryTag.className = `category-tag category-${urgentTodo.category}`;
+                switch(urgentTodo.category) {
+                    case 'work':
+                        categoryTag.textContent = '工作';
+                        break;
+                    case 'study':
+                        categoryTag.textContent = '学习';
+                        break;
+                    case 'life':
+                        categoryTag.textContent = '生活';
+                        break;
+                }
+                textSpan.appendChild(categoryTag);
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteBtn.addEventListener('click', () => {
+                    urgentTodos.splice(index, 1);
+                    saveData();
+                    renderUrgentTodos();
+                    updateTaskStats();
+                    showToast('重要任务已删除！');
+                });
+                
+                itemDiv.appendChild(textSpan);
+                itemDiv.appendChild(deleteBtn);
+                urgentList.appendChild(itemDiv);
+            });
+        }
+
+        // 保存数据
+        function saveData() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+            localStorage.setItem('urgentTodos', JSON.stringify(urgentTodos));
+        }
+
+        // 更新任务统计
+        function updateTaskStats() {
+            const totalTasks = todos.length + urgentTodos.length;
+            const completedTasks = todos.filter(todo => todo.isCompleted).length + 
+                                urgentTodos.filter(todo => todo.isCompleted).length;
+            const urgentTasks = urgentTodos.length;
+            const inProgressTasks = totalTasks - completedTasks;
+
+            totalTasksElement.textContent = totalTasks;
+            completedTasksElement.textContent = completedTasks;
+            urgentTasksElement.textContent = urgentTasks;
+            inProgressTasksElement.textContent = inProgressTasks;
+        }
+
+        // 初始化任务图表
+        function initTaskChart() {
+            const ctx = document.getElementById('taskChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['7天前', '6天前', '5天前', '4天前', '3天前', '2天前', '昨天', '今天'],
+                    datasets: [{
+                        label: '完成任务数',
+                        data: [3, 4, 2, 5, 3, 4, 6, 0],
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 微习惯打卡初始化
+        function initHabits() {
+            const habits = JSON.parse(localStorage.getItem('habits')) || {};
+            const today = new Date().toDateString();
+            const lastReset = localStorage.getItem('lastReset');
+            
+            // 如果新的一天，重置习惯
+            if (lastReset !== today) {
+                // 重置所有习惯为未打卡
+                document.querySelectorAll('.habit-checkbox').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                localStorage.removeItem('habits');
+                localStorage.setItem('lastReset', today);
+            } else {
+                // 加载打卡状态
+                document.querySelectorAll('.habit-checkbox').forEach(checkbox => {
+                    const habitId = checkbox.id;
+                    if (habits[habitId]) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+            
+            // 监听打卡状态变化
+            document.querySelectorAll('.habit-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    const habits = JSON.parse(localStorage.getItem('habits')) || {};
+                    habits[checkbox.id] = checkbox.checked;
+                    localStorage.setItem('habits', JSON.stringify(habits));
+                });
+            });
+        }
+
+        // 显示Toast消息
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
